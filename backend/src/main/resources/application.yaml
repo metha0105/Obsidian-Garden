@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: URL
+    username: XYZ
+    password: XYZ
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  profiles:
+    active: local

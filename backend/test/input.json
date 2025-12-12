@@ -1,0 +1,9 @@
+{
+  "code": "#include <iostream>\nint main() { int a, b; std::cin >> a >> b; std::cout << (a + b); return 0; }",
+  "language": "CPP",
+  "testCases": [
+    { "input": "2 3", "expected": "5" },
+    { "input": "10 15", "expected": "25" },
+    { "input": "4 5", "expected": "9" }
+  ]
+}

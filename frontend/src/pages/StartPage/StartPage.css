@@ -1,0 +1,47 @@
+html, body, #root {
+    height: 100%;
+    margin: 0;
+}
+
+.start-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: url("src/assets/start-bg.gif") no-repeat center center fixed;
+    background-size: cover;
+}
+
+@keyframes bob {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.logo-img {
+    max-width: 475px;
+    animation: bob 2s ease-in-out infinite;
+}
+
+.start-button {
+    padding: 12px 24px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    background: #38375d;
+    cursor: pointer;
+}
+
+.start-button:hover {
+  color: #7698e2;
+  background-color: #C6EFFF;
+  cursor: pointer;
+  box-shadow: 0 0 4px #afc2ff, 0 0 10px #afafff55;
+  transition: all 0.5s ease;
+}

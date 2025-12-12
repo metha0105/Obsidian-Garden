@@ -1,0 +1,45 @@
+.editor-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto; 
+    min-height: 80px;
+    overflow: hidden;
+}
+
+.editor-core {
+    flex-grow: 1;
+}
+
+.editor-toolbar {
+    display: flex;
+    gap: 12px;
+    padding: 10px;
+    background: #bcd8fc;
+}
+
+.editor-toolbar select,
+.editor-toolbar button {
+    background-color: #f8f4ff;
+    color: #252e4c;
+    font-family: "Jersey 10", sans-serif;
+    font-size: 0.95rem;
+    padding: 6px 14px;
+    text-transform: uppercase;
+    border: 2px solid #6088ee;
+    box-shadow: 2px 2px 0 0 #6088ee;
+    border-radius: 0;
+    image-rendering: pixelated;
+}
+
+.editor-toolbar button:hover {
+    background-color: #bfccf3;
+    transition: all 0.9s ease;
+}
+
+.monaco-scrollable-element > .scrollbar > .slider {
+  background: #dcbdfb !important; 
+  border-radius: 10px !important;
+}
+.monaco-scrollable-element > .scrollbar > .slider:hover {
+  background: #b588f7 !important; 
+}
