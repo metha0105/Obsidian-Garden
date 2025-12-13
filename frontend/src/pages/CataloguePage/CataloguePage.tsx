@@ -62,7 +62,7 @@ const CataloguePage: React.FC<CataloguePageProps> = ({ direction, setDirection }
                 if (!cancelled) setBackendReady(true);
             } catch (e) {
                 console.error(e);
-                if (!cancelled) setError("Waking server failed. Please refresh in a moment.");
+                if (!cancelled) setError("Waking server failed... Please refresh in a moment.");
             } finally {
                 if (!cancelled) setWaking(false);
             }
@@ -96,7 +96,7 @@ const CataloguePage: React.FC<CataloguePageProps> = ({ direction, setDirection }
                 setXp(stats);
             } catch (e) {
                 console.error(e);
-                if (!cancelled) setError("Loading data failed. Please refresh in a moment.");
+                if (!cancelled) setError("Loading data failed... Please refresh in a moment.");
             } finally {
                 if (!cancelled) setLoadingData(false);
             }
