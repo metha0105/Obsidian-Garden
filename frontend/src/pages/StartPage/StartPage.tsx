@@ -1,6 +1,5 @@
 import './StartPage.css';
 import logo from '../../assets/logo.png';
-import startBg from "../../assets/start-bg.gif"
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -38,7 +37,7 @@ const StartPage: React.FC<StartPageProps> = ({ direction, setDirection }) => {
       <div 
         className="start-container"
         style={{
-          backgroundImage: `url(${startBg})`,
+          backgroundImage: "url(/start-bg.gif)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh"
