@@ -7,9 +7,10 @@ import type {
     EvaluationResult,
     Xp,
 } from "../types/index";
+import { API_BASE_URL } from "../Config";
 
 const apiClient = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: API_BASE_URL,
     withCredentials: true,
 });
 
