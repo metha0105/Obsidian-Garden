@@ -23,8 +23,9 @@ async function sleep(ms: number) {
     return new Promise((r) => setTimeout(r, ms));
 }
 
-async function wakeBackend(timeoutMs = 90_000) {
+async function wakeBackend(timeoutMs = 300_000) {
     const start = Date.now();
+    let delay = 1500;
 
     while (Date.now() - start < timeoutMs) {
         try {
@@ -33,7 +34,8 @@ async function wakeBackend(timeoutMs = 90_000) {
         } catch {
 
         }
-        await sleep(1500);
+        await sleep(delay);
+        delay = Math.min(delay * 1.3, 10_000);
     }
 
     throw new Error("Backend is waking up (Render free tier). Please try again.");

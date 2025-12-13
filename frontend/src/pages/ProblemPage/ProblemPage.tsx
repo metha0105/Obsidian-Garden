@@ -8,6 +8,7 @@ import EditorSection from "../../components/EditorSection/EditorSection";
 import tempBg from "../../assets/temp-lune-bg.jpeg";
 import tempSprite from "../../assets/mew.gif";
 import { motion } from "framer-motion";
+import LoadingPage from "../../components/LoadingPage/LoadingPage";
 
 const variants = {
     initial: (direction: number) => ({ x: direction > 0 ? "100%" : "-100%", opacity: 0 }),
@@ -23,11 +24,15 @@ type ProblemPageProps = {
 const ProblemPage: React.FC<ProblemPageProps> = ({ direction, setDirection }) => {
     const navigate = useNavigate();
 
-    const { problemId } = useParams<{problemId: string }>();
+    const { problemId } = useParams();
 
     const [problem, setProblem] = useState<Problem | null>(null);
     const [xp, setXp] = useState<Xp | null>(null);
+
+    const [waking, setWaking] = useState(true);
+    const [loadingData, setLoadingData] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [backendReady, setBackendReady] = useState(false);
 
     const [language, setLanguage] = useState<Language>("CPP");
     const [submittedCode, setSubmittedCode] = useState("");
@@ -35,28 +40,75 @@ const ProblemPage: React.FC<ProblemPageProps> = ({ direction, setDirection }) =>
     const [evaluationResult, setEvaluationResult] = useState<EvaluationResult | null>(null);
 
     useEffect(() => {
+        let cancelled = false;
+
+        (async () => {
+            setError(null);
+            setWaking(true);
+
+            try {
+                await Api.wakeBackend();
+                if (!cancelled) setBackendReady(true);
+            } catch (e) {
+                console.error(e);
+                if (!cancelled) setError("Waking server failed... Please refresh in a moment.");
+            } finally {
+                if (!cancelled) setWaking(false);
+            }
+        })();
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!backendReady) return;
+
         if (!problemId) {
             setError("No problem ID provided.");
             return;
         }
-        setError(null);
 
-        Api.getProblemById(problemId)
-            .then((p) => {
-                setProblem(p);
-            })
-            .catch((err) => {
-                console.error(err);
-                setError("Failed to fetch problem data.");
-            });
-        
-        Api.getStats()
-            .then((stats) => setXp(stats))
-            .catch((err) => {
-                console.error(err);
-                setError("Failed to fetch user stats.");
-            })
-    }, [problemId]);
+        let cancelled = false;
+
+        (async () => {
+            setError(null);
+            setLoadingData(true);
+
+            try {
+                const [problemInfo, stats] = await Promise.all([
+                    Api.getProblemById(problemId),
+                    Api.getStats(),
+                ]);
+
+                if (cancelled) return;
+                setProblem(problemInfo);
+                setXp(stats);
+            } catch (e) {
+                console.error(e);
+                
+                if (!cancelled) setError("Loading data failed... Please refresh in a moment.");
+            } finally {
+                if (!cancelled) setLoadingData(false);
+            }
+        })();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [backendReady, problemId]);
+
+    if (error) {
+        return(
+            <LoadingPage message={error} showRetry/>
+        );
+    }
+
+    const showLoading = waking || (backendReady && loadingData);
+    if (showLoading) {
+        return <LoadingPage />;
+    }
 
     const handleSubmit = async () => {
         if (!problemId) return;
