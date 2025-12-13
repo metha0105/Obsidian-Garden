@@ -38,7 +38,7 @@ const StartPage: React.FC<StartPageProps> = ({ direction, setDirection }) => {
       <div 
         className="start-container"
         style={{
-          backgroundImage: startBg,
+          backgroundImage: `url(${startBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh"
