@@ -10,6 +10,8 @@ const variants = {
   exit: (direction: number) => ({ x: direction > 0 ? "-100%" : "100%", opacity: 0 }),
 };
 
+const bgUrl = `${import.meta.env.BASE_URL}start-bg.gif`;
+
 type StartPageProps = {
   direction: number;
   setDirection: (dir: number) => void;
@@ -37,7 +39,7 @@ const StartPage: React.FC<StartPageProps> = ({ direction, setDirection }) => {
       <div 
         className="start-container"
         style={{
-          backgroundImage: "url(/start-bg.gif)",
+          backgroundImage: `url(${bgUrl})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh"
