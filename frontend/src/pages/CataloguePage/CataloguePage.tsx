@@ -31,7 +31,7 @@ const CataloguePage: React.FC<CataloguePageProps> = ({ direction, setDirection }
     const [selectedDiffs, setSelectedDiffs] = useState<Difficulty[]>([]);
     const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
-    const [waking, setWaking] = useState(true);
+    const [waking, setWaking] = useState(false);
     const [, setLoadingData] = useState(false);
 
     const [error, setError] = useState<string | null>(null);
@@ -53,9 +53,12 @@ const CataloguePage: React.FC<CataloguePageProps> = ({ direction, setDirection }
     useEffect(() => {
         let cancelled = false;
 
+        let showTimer: number | undefined = window.setTimeout(() => {
+            if (!cancelled) setWaking(true);
+        }, 1_000);
+
         (async () => {
             setError(null);
-            setWaking(true);
 
             try {
                 await Api.wakeBackend();
@@ -64,12 +67,14 @@ const CataloguePage: React.FC<CataloguePageProps> = ({ direction, setDirection }
                 console.error(e);
                 if (!cancelled) setError("Waking server failed... Please refresh in a moment.");
             } finally {
+                if (showTimer) window.clearTimeout(showTimer);
                 if (!cancelled) setWaking(false);
             }
         })();
 
         return () => {
             cancelled = true;
+            if (showTimer) window.clearTimeout(showTimer);
         };
     }, []);
 
