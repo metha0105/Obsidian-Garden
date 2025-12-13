@@ -30,7 +30,7 @@ const CataloguePage: React.FC<CataloguePageProps> = ({ direction, setDirection }
     const [selectedDiffs, setSelectedDiffs] = useState<Difficulty[]>([]);
     const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
-    const [error, setError] = useState<string | null>(null);
+    const [, setError] = useState<string | null>(null);
     
     const toggleItem = <T extends string>(
         value: T,

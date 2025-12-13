@@ -7,7 +7,7 @@ import type {
     EvaluationResult,
     Xp,
 } from "../types/index";
-import { API_BASE_URL } from "../Config";
+import { API_BASE_URL } from "../config";
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
