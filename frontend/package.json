@@ -6,14 +6,14 @@
 
   "homepage": "https://metha0105.github.io/Obsidian-Garden/",
 
-  "scripts": {
+"scripts": {
   "dev": "vite",
   "build": "tsc -b && vite build",
   "preview": "vite preview",
-  "predeploy": "tsc -b && vite build",
-  "deploy": "VITE_API_BASE_URL=https://obsidian-garden-y1mf.onrender.com gh-pages -d dist"
-  },
-  "dependencies": {
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d dist"
+},
+"dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "axios": "^1.13.2",
     "framer-motion": "^12.23.26",
