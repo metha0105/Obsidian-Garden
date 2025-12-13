@@ -2,8 +2,8 @@
 A gamified full-stack LeetCode companion web app to make the LeetCode grind more engaging. It was primarily inspired by Tamagotchi! 
 
 ## Live Demo 
-Frontend (GitHub Pages): https://metha0105.github.io/Obsidian-Garden/ 
-Backend API is hosted on Render.
+* Frontend (GitHub Pages): https://metha0105.github.io/Obsidian-Garden/
+* Backend API is hosted on Render.
 
 ## NOTES
 Unfortunately, sandbox execution in the live demo is limited as Render's free tier is currently being used. This is also to help prevent arbitrary code execution on public servers. The local setup enables full code judging. For more details on how exactly the judging is done, please refer to the `evaluator` folder and the `EvaluationServiceImpl.java` file within the backend. Parsing of user's code is still being tested. Changes will be pushed once testing is finished and another method is found for sandbox execution in the live demo.
