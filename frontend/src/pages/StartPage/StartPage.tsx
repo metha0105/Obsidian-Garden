@@ -27,7 +27,7 @@ const StartPage: React.FC<StartPageProps> = ({ direction, setDirection }) => {
       initial="intial"
       animate="animate"
       exit="exit"
-      transition={{ duration: 2, ease: "easeInOut" }}
+      transition={{ duration: 1.5, ease: "easeInOut" }}
       style={{
         position: "absolute",
         inset: 0,

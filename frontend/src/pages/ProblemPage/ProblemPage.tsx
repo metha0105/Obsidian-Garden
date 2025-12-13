@@ -30,7 +30,7 @@ const ProblemPage: React.FC<ProblemPageProps> = ({ direction, setDirection }) =>
     const [xp, setXp] = useState<Xp | null>(null);
 
     const [waking, setWaking] = useState(true);
-    const [loadingData, setLoadingData] = useState(false);
+    const [, setLoadingData] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [backendReady, setBackendReady] = useState(false);
 
@@ -105,8 +105,7 @@ const ProblemPage: React.FC<ProblemPageProps> = ({ direction, setDirection }) =>
         );
     }
 
-    const showLoading = waking || (backendReady && loadingData);
-    if (showLoading) {
+    if (waking) {
         return <LoadingPage />;
     }
 
@@ -147,7 +146,7 @@ const ProblemPage: React.FC<ProblemPageProps> = ({ direction, setDirection }) =>
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 2, ease: "easeInOut" }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
             style={{
                 position: "absolute",
                 inset: 0,
