@@ -19,7 +19,30 @@ function unwrap<T>(promise: Promise<{ data: T }>): Promise<T> {
     return promise.then((response) => response.data);
 }
 
+async function sleep(ms: number) {
+    return new Promise((r) => setTimeout(r, ms));
+}
+
+async function wakeBackend(timeoutMs = 90_000) {
+    const start = Date.now();
+
+    while (Date.now() - start < timeoutMs) {
+        try {
+            await apiClient.get("/healthz", { timeout: 8000 });
+            return;
+        } catch {
+
+        }
+        await sleep(1500);
+    }
+
+    throw new Error("Backend is waking up (Render free tier). Please try again.");
+}
+
 export const Api = {
+    // Wakeup server (demo)
+    wakeBackend,
+    
     // Endpoint #1: List all problems with optional filters
     getProblems: (opts?: {
         difficulties?: Difficulty[];

@@ -1,0 +1,36 @@
+.loading-page {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: #0d122b;
+  color: #E1DADA;
+  text-shadow: 1px 1px 6px rgb(149, 181, 241);
+  font-family: "Jersey 10", sans-serif;
+}
+
+.loading-gif {
+    max-width: 240px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 24px;
+}
+
+.loading-text {
+    font-size: 1.5rem;
+}
+
+.loading-retry {
+  padding: 6px 12px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  background: #38375d;
+  cursor: pointer;
+}
+
+.loading-retry:hover {
+  color: #7698e2;
+  background-color: #C6EFFF;
+  cursor: pointer;
+  box-shadow: 0 0 4px #afc2ff, 0 0 10px #afafff55;
+  transition: all 0.5s ease;
+}

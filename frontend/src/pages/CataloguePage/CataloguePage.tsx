@@ -6,6 +6,7 @@ import "./CataloguePage.css";
 import tempBg from "../../assets/temp-lune-bg.jpeg";
 import tempSprite from "../../assets/mew.gif";
 import { motion } from "framer-motion";
+import LoadingPage from "../../components/LoadingPage/LoadingPage";
 
 const difficultyOptions: Difficulty[] = ["EASY", "MEDIUM", "HARD"];
 const tagOptions: Tag[] = [ "ARRAY", "DP", "STRING", "HASHMAP", "TWO_POINTERS", "BINARY_SEARCH", "TREE", "GRAPH", "DFS", "BFS", "GREEDY", "TRIE", "STACK", "HASHSET", "UNION_FIND", "SORTING"];
@@ -30,7 +31,12 @@ const CataloguePage: React.FC<CataloguePageProps> = ({ direction, setDirection }
     const [selectedDiffs, setSelectedDiffs] = useState<Difficulty[]>([]);
     const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
-    const [, setError] = useState<string | null>(null);
+    const [waking, setWaking] = useState(true);
+    const [loadingData, setLoadingData] = useState(false);
+
+    const [error, setError] = useState<string | null>(null);
+
+    const [backendReady, setBackendReady] = useState(false);
     
     const toggleItem = <T extends string>(
         value: T,
@@ -45,25 +51,72 @@ const CataloguePage: React.FC<CataloguePageProps> = ({ direction, setDirection }
     };
 
     useEffect(() => {
-        setError(null);
+        let cancelled = false;
 
-        Api.getProblems({
-            tags: selectedTags.length > 0 ? selectedTags : undefined,
-            difficulties: selectedDiffs.length > 0 ? selectedDiffs : undefined,
-        })
-            .then(setProblems)
-            .catch((error) => {
-                console.error(error);
-                setError("Failed to fetch problems.");
-            })
-        
-        Api.getStats()
-            .then((stats) => setXp(stats))
-            .catch((err) => {
-                console.error(err);
-                setError("Failed to fetch user stats.");
-            })
-    }, [selectedTags, selectedDiffs]);
+        (async () => {
+            setError(null);
+            setWaking(true);
+
+            try {
+                await Api.wakeBackend();
+                if (!cancelled) setBackendReady(true);
+            } catch (e) {
+                console.error(e);
+                if (!cancelled) setError("Waking server failed. Please refresh in a moment.");
+            } finally {
+                if (!cancelled) setWaking(false);
+            }
+        })();
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!backendReady) return;
+
+        let cancelled = false;
+
+        (async () => {
+            setError(null);
+            setLoadingData(true);
+
+            try {
+                const [problemsData, stats] = await Promise.all([
+                    Api.getProblems({
+                        tags: selectedTags.length > 0 ? selectedTags : undefined,
+                        difficulties: selectedDiffs.length > 0 ? selectedDiffs : undefined,
+                    }),
+                    Api.getStats(),
+                ]);
+
+                if (cancelled) return;
+                setProblems(problemsData);
+                setXp(stats);
+            } catch (e) {
+                console.error(e);
+                if (!cancelled) setError("Loading data failed. Please refresh in a moment.");
+            } finally {
+                if (!cancelled) setLoadingData(false);
+            }
+        })();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [backendReady, selectedTags, selectedDiffs]);
+
+    if (error) {
+        return(
+            <LoadingPage message={error} showRetry />
+        );
+    }
+
+    const showLoading = waking || (backendReady && loadingData);
+    if (showLoading) {
+        return <LoadingPage />;
+    }
 
     return (
         <motion.div
