@@ -11,7 +11,7 @@ html, body, #root {
     justify-content: center;
     align-items: center;
 
-    background: url("../assets/start-bg.gif") no-repeat center center fixed;
+    background: url("../../assets/start-bg.gif") no-repeat center center fixed;
     background-size: cover;
 }
 
