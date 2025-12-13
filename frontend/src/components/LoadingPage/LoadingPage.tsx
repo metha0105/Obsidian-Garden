@@ -7,7 +7,7 @@ type LoadingPageProps = {
 }
 
 export default function LoadingPage({
-    message = "Waking up server... Render (free-tier) can taking a bit of time to spin up after inactivity.",
+    message = "Waking up server... Render (free-tier) can take a bit of time to spin up after inactivity.",
     showRetry = false,
 }: LoadingPageProps) {
     return (
