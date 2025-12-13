@@ -10,9 +10,6 @@ html, body, #root {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    background: url("../../assets/start-bg.gif") no-repeat center center fixed;
-    background-size: cover;
 }
 
 @keyframes bob {
